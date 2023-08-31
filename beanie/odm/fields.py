@@ -114,6 +114,8 @@ class PydanticObjectId(ObjectId):
         def validate(cls, v, _: ValidationInfo):
             if isinstance(v, bytes):
                 v = v.decode("utf-8")
+            if isinstance(v, Link):
+                v = v.ref.id
             try:
                 return PydanticObjectId(v)
             except InvalidId:
